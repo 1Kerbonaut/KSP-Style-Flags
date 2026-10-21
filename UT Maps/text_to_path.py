@@ -1,9 +1,10 @@
 from pathlib import Path
 import subprocess
 
-# Change these two paths
 source_dir = Path(r"D:\GitHub\KSP Style Flag\UT Maps")
 output_dir = Path(r"D:\GitHub\KSP Style Flag\UT Maps\Non Font Dependent")
+
+inkscape_exe = r"C:\Program Files\Inkscape\bin\inkscape.exe"
 
 for svg in source_dir.rglob("*.svg"):
     relative = svg.relative_to(source_dir)
@@ -13,7 +14,7 @@ for svg in source_dir.rglob("*.svg"):
     print(f"Converting: {relative}")
 
     subprocess.run([
-        "inkscape",
+        inkscape_exe,
         str(svg),
         "--export-text-to-path",
         "--export-plain-svg",
