@@ -6,9 +6,6 @@ from pathlib import Path
 
 from lxml import etree
 
-# Usage:
-# python export_markers.py map.svg markers.csv
-
 SVG_NS = "http://www.w3.org/2000/svg"
 INK_NS = "http://www.inkscape.org/namespaces/inkscape"
 
