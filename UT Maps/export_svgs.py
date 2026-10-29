@@ -1,26 +1,65 @@
-
 import shutil
 import subprocess
 import tempfile
+import platform
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
 SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR / "Exported_Images"
+OUTPUT_DIR = SCRIPT_DIR / "Export"
+
+SYSTEM = platform.system()
+
+SVG_NS = "http://www.w3.org/2000/svg"
+INKSCAPE_NS = "http://www.inkscape.org/namespaces/inkscape"
 
 EXPORT_WIDTH = 2048
 BACKGROUND_COLOR = "#000e25"
 HIDDEN_LAYER = "Markers"
 
-FLATPAK = shutil.which("flatpak")
+if SYSTEM == "Windows":
+    # Search for Inkscape in the Windows PATH
+    inkscape_path = shutil.which("inkscape")
 
-if FLATPAK is None:
-    raise FileNotFoundError("Flatpak was not found.")
+    # Fall back to the default installation location
+    if inkscape_path is None:
+        default_path = (
+            Path("C:/Program Files/Inkscape/bin/inkscape.exe")
+        )
+        if default_path.exists():
+            inkscape_path = str(default_path)
 
-INKSCAPE = [FLATPAK, "run", "org.inkscape.Inkscape"]
+    if inkscape_path is None:
+        raise FileNotFoundError(
+            "Inkscape was not found. Add it to PATH or "
+            "check its installation directory."
+        )
 
-SVG_NS = "http://www.w3.org/2000/svg"
-INKSCAPE_NS = "http://www.inkscape.org/namespaces/inkscape"
+    INKSCAPE = [inkscape_path]
+
+elif SYSTEM == "Linux":
+    # Prefer Flatpak, as used on your Mint system
+    flatpak_path = shutil.which("flatpak")
+
+    if flatpak_path is not None:
+        INKSCAPE = [
+            flatpak_path,
+            "run",
+            "org.inkscape.Inkscape",
+        ]
+    else:
+        inkscape_path = shutil.which("inkscape")
+
+        if inkscape_path is None:
+            raise FileNotFoundError(
+                "Neither Flatpak Inkscape nor a native "
+                "Inkscape installation was found."
+            )
+
+        INKSCAPE = [inkscape_path]
+
+else:
+    raise OSError(f"Unsupported operating system: {SYSTEM}")
 
 ET.register_namespace("", SVG_NS)
 ET.register_namespace("inkscape", INKSCAPE_NS)
@@ -82,6 +121,7 @@ for svg_file in svg_files:
             *INKSCAPE,
             str(temp_path),
             f"--export-filename={output_file}",
+            # background, comment for transparent mode
             f"--export-background={BACKGROUND_COLOR}",
             "--export-background-opacity=1",
         ]
