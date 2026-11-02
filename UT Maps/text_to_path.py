@@ -6,7 +6,7 @@ output_dir = Path(r"D:\GitHub\KSP Style Flag\UT Maps\Non Font Dependent")
 
 inkscape_exe = r"C:\Program Files\Inkscape\bin\inkscape.exe"
 
-for svg in source_dir.rglob("*.svg"):
+for svg in source_dir.glob("*.svg"):
     relative = svg.relative_to(source_dir)
     output = output_dir / relative
     output.parent.mkdir(parents=True, exist_ok=True)
