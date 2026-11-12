@@ -2,10 +2,10 @@
 <img width="2048" height="1024" alt="AP_Flag_2048" src="https://github.com/user-attachments/assets/c664454e-a718-42a3-bf88-fe27c1c21aae" />
 
 Simple Flag designs for the kerbal space program Archipelago Randomizer.
-I wont stop anyone for using them in vanilla KSP. :) \
+I wont stop anyone for using them in vanilla KSP. :) 
 
 
-## Now also contains the Map Pack used by [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases).
+## Now also contains the Map Pack used by [Universal Tracker](https://github.com/FarisTheAncient/Archipelago/releases)
 
 Simply download `UT.Maps.zip` from the release page and save it somewhere you remember.\
 UT will ask for a Map pack on first connection to a KSP slot.
